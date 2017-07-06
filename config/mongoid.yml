@@ -1,3 +1,8 @@
+production:
+  adapter: mongoid
+  clients:
+    default:
+      uri: mongodb://heroku_czn98t91:5biu8mcp53a34nts1sb2du0s8m@ds151202.mlab.com:51202/heroku_czn98t91
 development:
   adapter: 'mongoid'
   # Configure available database clients. (required)
