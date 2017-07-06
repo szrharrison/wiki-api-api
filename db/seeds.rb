@@ -8,17 +8,22 @@
 
 require 'open-uri'
 require 'json'
-account = Account.create_with(password: 'password').find_or_create_by(username: 'admin')
-pokeapi = account.api_wikis.find_or_create_by(name:'Pokemon Api')
-pokeapi.set_slug
+
+account_info = {
+  password: 'password',
+  first_name: 'John',
+  last_name: 'Doe'
+}
+
+account = Account.create_with(account_info).find_or_create_by(username: 'admin')
+pokeapi = account.api_wikis.create_with(name:'Pokémon Api').find_or_create_by(slug: 'pokemon-api')
 pokeapi.save
 
 ####################################################
 # Add Pokemon to Pokemon page in Pokemon API       #
 ####################################################
 
-all_pokemon = pokeapi.pages.create(name: 'pokemon')
-all_pokemon.set_slug
+all_pokemon = pokeapi.pages.create(name: 'pokémon', slug: 'pokemon')
 all_pokemon.save
 (1..100).each do |num|
   pokemon_page = all_pokemon.sub_pages.new( name: num)
