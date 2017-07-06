@@ -8,8 +8,10 @@
 
 require 'open-uri'
 require 'json'
-account = Account.create(username: 'admin', password: 'password')
-pokeapi = account.api_wikis.create(name:'Pokemon Api')
+account = Account.find_or(:create, username: 'admin') do |user|
+  user.password = 'password'
+end
+pokeapi = account.api_wikis.find_or_create_by(name:'Pokemon Api')
 pokeapi.set_slug
 
 ####################################################
