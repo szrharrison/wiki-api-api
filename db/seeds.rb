@@ -10,6 +10,7 @@ require 'open-uri'
 require 'json'
 account = Account.create(username: 'admin', password: 'password')
 pokeapi = account.api_wikis.create(name:'Pokemon Api')
+pokeapi.set_slug
 
 ####################################################
 # Add Pokemon to Pokemon page in Pokemon API       #
