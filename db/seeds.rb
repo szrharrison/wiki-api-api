@@ -8,19 +8,21 @@
 
 require 'open-uri'
 require 'json'
-account = Account.find_or(:create, username: 'admin') do |user|
-  user.password = 'password'
-end
+account = Account.create_with(password: 'password').find_or_create_by(username: 'admin')
 pokeapi = account.api_wikis.find_or_create_by(name:'Pokemon Api')
 pokeapi.set_slug
+pokeapi.save
 
 ####################################################
 # Add Pokemon to Pokemon page in Pokemon API       #
 ####################################################
 
 all_pokemon = pokeapi.pages.create(name: 'pokemon')
+all_pokemon.set_slug
+all_pokemon.save
 (1..100).each do |num|
   pokemon_page = all_pokemon.sub_pages.new( name: num)
+  pokemon_page.set_slug
 
   pokemon = {}
   open("http://pokeapi.co/api/v2/pokemon/#{num}") do |f|
@@ -43,8 +45,11 @@ end
 ####################################################
 
 all_types = pokeapi.pages.create(name: 'type')
+all_types.set_slug
+all_types.save
 (1..18).each do |num|
   type_page = all_types.sub_pages.new( name: num )
+  type_page.set_slug
 
   type = {}
   open("http://pokeapi.co/api/v2/type/#{num}") do |f|
@@ -68,8 +73,11 @@ end
 #####################################################
 
 all_generations = pokeapi.pages.create(name: 'generation')
+all_generations.set_slug
+all_generations.save
 (1..6).each do |num|
   generation_page = all_generations.sub_pages.new( name: num )
+  generation_page.set_slug
 
   generation = {}
   open("http://pokeapi.co/api/v2/generation/#{num}") do |f|
